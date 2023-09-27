@@ -166,8 +166,7 @@ int handle_input(char *prompt, char **envp)
 			if (status != -1)
 			{
 				free_input(args);
-				free_input(input);
-				free(prompt);
+				continue;
 				return (status);
 			}
 				if (access(args[0], X_OK) == 0)
