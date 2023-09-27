@@ -154,41 +154,44 @@ return (exec_status);
 
 int handle_input(char *prompt, char **envp)
 {
-	int i, status;
-	char **input = NULL, **args = NULL;
+	int i, j, status;
+	char **input = NULL, **args = NULL, **commands = NULL;
 
-	input = input_tokenize(prompt, "\n");
-	for (i = 0; input[i] != NULL; i++)
+	commands = input_tokenize(prompt, ";");
+	for (j = 0; commands[j] != NULL; j++)
 	{
-		args = input_tokenize(input[i], " ");
-		if (args[0] != NULL)
-		{ status = execute_builtin(args);
-			if (status != -1)
+		input = input_tokenize(commands[j], "\n");
+		for (i = 0; input[i] != NULL; i++)
+		{
+			args = input_tokenize(input[i], " ");
+			if (args[0] != NULL)
 			{
-				free_input(args);
-				continue;
-				return (status);
-			}
-				if (access(args[0], X_OK) == 0)
-				{
-				status = execute_non_builtin(args, envp);
+				status = execute_builtin(args);
 				if (status != -1)
 				{
 					free_input(args);
 					continue;
-					return (status);
 				}
-				} status = execute_if_path(args, envp);
-			if (status != -1)
-			{
-				free_input(args);
-				continue;
-				return (status);
-			}
-			else
-			_display("Error: command not found\n");
-		} free_input(args);
-	} free_input(input);
+				if (access(args[0], X_OK) == 0)
+				{
+					status = execute_non_builtin(args, envp);
+					if (status != -1)
+					{
+						free_input(args);
+						continue;
+					}
+				}
+				status = execute_if_path(args, envp);
+				if (status != -1)
+				{
+					free_input(args);
+					continue;
+				}
+				else
+				_display("Error: command not found\n");
+			} free_input(args);
+		} free_input(input);
+	} free_input(commands);
 	free(prompt);
 	return (0);
 }
