@@ -76,12 +76,18 @@ return (0);
 
 int execute_builtin(char **args, char **input, char **commands, char *prompt)
 {
+	int status = 0;
 	if (strcmp(args[0], "exit") == 0)
 	{
+		if (args[1] != NULL)
+		{
+		status = _atoi(args[1]);
+		free(args[1]);
+		}
 		free(args[0]);
 		free(args);
 		free_all(input, NULL, commands, prompt);
-		exit(EXIT_SUCCESS);
+		exit(status);
 	}
 	else if (strcmp(args[0], "cd") == 0)
 	{
