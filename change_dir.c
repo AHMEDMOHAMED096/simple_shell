@@ -89,7 +89,6 @@ int _cd(char **args)
 	{
 		return (-1);
 	}
-	free(new_dir);
 	free(old_dir);
 	free(current_dir);
 	return (0);
