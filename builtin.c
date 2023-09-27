@@ -35,7 +35,7 @@ int _setenv(char **args)
 {
 if (args[1] == NULL || args[2] == NULL)
 {
-return (-1);
+return (0);
 }
 if (setenv(args[1], args[2], 1) == -1)
 {
@@ -55,7 +55,7 @@ int _unsetenv(char **args)
 {
 if (args[1] == NULL)
 {
-return (-1);
+return (0);
 }
 if (unsetenv(args[1]) == -1)
 {
