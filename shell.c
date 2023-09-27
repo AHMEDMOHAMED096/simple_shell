@@ -176,16 +176,14 @@ int handle_input(char *prompt, char **envp)
 				if (status != -1)
 				{
 					free_input(args);
-					free_input(input);
-					free(prompt);
+					continue;
 					return (status);
 				}
 				} status = execute_if_path(args, envp);
 			if (status != -1)
 			{
 				free_input(args);
-				free_input(input);
-				free(prompt);
+				continue;
 				return (status);
 			}
 			else
