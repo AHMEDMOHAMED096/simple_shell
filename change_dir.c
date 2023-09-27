@@ -8,20 +8,26 @@
 
 char *get_new_dir(char **args)
 {
+	char *new_dir;
+	char *dir;
+
 	if (args[1] == NULL)
 	{
-		return (_getenv("HOME"));
+		new_dir = _getenv("HOME");
 	}
 
 	else if (_strcmp(args[1], "-") == 0 || _strcmp(args[1], "..") == 0)
 	{
-		return (_getenv("OLDPWD"));
+		new_dir = _getenv("OLDPWD");
 	}
 
 	else
 	{
 		return (args[1]);
 	}
+	dir = _strdup(new_dir);
+	free(new_dir);
+	return (dir);
 }
 
 /**
@@ -65,32 +71,39 @@ int change_dir(char *new_dir)
 
 int _cd(char **args)
 {
-	char *current_dir;
-	char *old_dir;
-	char *new_dir = get_new_dir(args);
+	char *current_dir, *old_dir, *new_dir = get_new_dir(args);
 
 	if (new_dir == NULL)
 	{
 		perror("No directory");
 		return (-1);
 	}
-
 	old_dir = getcwd(NULL, 0);
-
-	if (old_dir == NULL || change_dir(new_dir) != 0
-					|| update_env("OLDPWD", old_dir) != 0)
+	if (old_dir == NULL)
 	{
+		free(new_dir);
 		return (-1);
 	}
-
+	if (change_dir(new_dir) != 0)
+	{
+	free(old_dir);
+	return (-1);
+	}
+	if (update_env("OLDPWD", old_dir) != 0)
+	{
+	free(old_dir);
+	free(new_dir);
+	return (-1);
+	}
 	current_dir = getcwd(NULL, 0);
-
 	if (current_dir == NULL || update_env("PWD", current_dir) != 0)
 	{
-		return (-1);
+	free(old_dir);
+	free(new_dir);
+	return (-1);
 	}
 	free(old_dir);
 	free(current_dir);
+	free(new_dir);
 	return (0);
 }
-
