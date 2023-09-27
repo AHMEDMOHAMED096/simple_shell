@@ -68,15 +68,19 @@ return (0);
 /**
  * execute_builtin - function to execute builtin commands
  * @args: array of command line arguments passed to it
+ * @input: The input given by user after tokenizing
+ * @commands: The commands to be executed
+ * @prompt: The prompt given by user before tokenizing
  * Return: 0 on success or -1 on error
 **/
 
-int execute_builtin(char **args)
+int execute_builtin(char **args, char **input, char **commands, char *prompt)
 {
 	if (strcmp(args[0], "exit") == 0)
 	{
 		free(args[0]);
 		free(args);
+		free_all(input, NULL, commands, prompt);
 		exit(EXIT_SUCCESS);
 	}
 	else if (strcmp(args[0], "cd") == 0)

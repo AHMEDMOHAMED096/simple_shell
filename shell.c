@@ -166,7 +166,7 @@ int handle_input(char *prompt, char **envp)
 			args = input_tokenize(input[i], " ");
 			if (args[0] != NULL)
 			{
-				status = execute_builtin(args);
+				status = execute_builtin(args, input, commands, prompt);
 				if (status != -1)
 				{
 					free_input(args);

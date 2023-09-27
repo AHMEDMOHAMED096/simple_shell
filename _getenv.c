@@ -46,3 +46,23 @@ void free_input(char **input)
 	free(input);
 }
 
+
+/**
+ * free_all - A function to free all memory before exit
+ * @input: The input given by user after tokenizing
+ * @args: The command line arguments passed to it
+ * @commands: The commands to be executed
+ * @prompt: The prompt given by user before tokenizing
+*/
+
+void free_all(char **input, char **args, char **commands, char *prompt)
+{
+if (input != NULL)
+	free_input(input);
+if (args != NULL)
+	free_input(args);
+if (commands != NULL)
+	free_input(commands);
+if (prompt != NULL)
+	free(prompt);
+}

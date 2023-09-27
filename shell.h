@@ -15,7 +15,7 @@
 
 extern char **environ;
 
-int execute_builtin(char **args);
+int execute_builtin(char **args, char **input, char **commands, char *prompt);
 int execute_non_builtin(char **args, char **envp);
 char **input_tokens(char *prompt, int *args_count);
 char *_getenv(const char *env);
@@ -30,6 +30,6 @@ void _display(char *s_dis);
 int _atoi(char *s);
 void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
 void free_input(char **input);
-
+void free_all(char **input, char **args, char **commands, char *prompt);
 
 #endif /* _SHELL_H_ */
