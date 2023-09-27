@@ -24,6 +24,7 @@ int _strcmp(const char *str1, const char *str2);
 size_t _strlen(const char *str);
 char *_strcpy(char *dest, const char *cpy);
 char *_strcat(char *dest, const char *str);
+char *_strchr(char *str, int c);
 ssize_t _getline(char **text);
 int _cd(char **args);
 void _display(char *s_dis);

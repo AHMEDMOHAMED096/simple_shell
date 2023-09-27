@@ -66,3 +66,24 @@ if (commands != NULL)
 if (prompt != NULL)
 	free(prompt);
 }
+
+/**
+ * _strchr - A function to find the first occurrence of c
+ * @str: The string passed to function
+ * @c: The charachter to find
+ * Return: A pointer to the first occurrence of c
+ */
+
+char *_strchr(char *str, int c)
+{
+	while (*str != '\0')
+	{
+		if (*str == c)
+			return (str);
+		str++;
+	}
+	if (c == '\0')
+		return (str);
+	return (NULL);
+}
+

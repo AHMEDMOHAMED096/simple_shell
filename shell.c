@@ -11,42 +11,42 @@ char **input_tokenize(char *prompt, char *delim)
 {
 	char **args;
 	int args_count = 0;
-	char *prompt_copy = _strdup(prompt), *token;
-
-	if (prompt_copy == NULL)
-		return (NULL);
-	token = strtok(prompt_copy, delim);
-
-	while (token != NULL)
-	{
+	char *prompt_copy = _strdup(prompt), *token, *comment_pos;
+if (prompt_copy == NULL)
+	return (NULL);
+token = strtok(prompt_copy, delim);
+while (token != NULL)
+{
+	if (token[0] != '#')
 		args_count++;
-		token = strtok(NULL, delim);
-	} free(prompt_copy);
-	args = malloc((args_count + 1) * sizeof(char *));
-
-	if (args == NULL)
-		return (NULL);
-	args_count = 0;
+	token = strtok(NULL, delim);
+}
+free(prompt_copy);
+args = malloc((args_count + 1) * sizeof(char *));
+if (args == NULL)
+{ return (NULL);
+} args_count = 0;
 	prompt_copy = _strdup(prompt);
-	if (prompt_copy == NULL)
-	{
-		free(args);
-		return (NULL);
-	}
+if (prompt_copy == NULL)
+{
+	free(args);
+	return (NULL);
+}
 	token = strtok(prompt_copy, delim);
 	while (token != NULL)
 	{
-		args[args_count] = _strdup(token);
-		if (args[args_count] == NULL)
-		{
-			free_input(args);
-			free(prompt_copy);
-			return (NULL);
-		}
-		args_count++;
-		token = strtok(NULL, delim);
-	}
-	args[args_count] = NULL;
+		if (token[0] != '#')
+		{ comment_pos = _strchr(token, '#');
+			if (comment_pos != NULL)
+			{ *comment_pos = '\0';
+			} args[args_count] = _strdup(token);
+			if (args[args_count] == NULL)
+			{ free_input(args);
+				free(prompt_copy);
+				return (NULL);
+			} args_count++;
+		} token = strtok(NULL, delim);
+	} args[args_count] = NULL;
 	free(prompt_copy);
 	return (args);
 }
